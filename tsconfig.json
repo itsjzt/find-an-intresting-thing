@@ -1,4 +1,6 @@
 {
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"],
   "compilerOptions": {
     "lib": ["es5", "es6"],
     "target": "es5",
