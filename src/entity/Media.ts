@@ -9,20 +9,14 @@ import {
 import { User } from "./User";
 import { Tag } from "./Tag";
 
-enum MEDIA_TYPE {
-  MOVIE,
-  TVSHOW,
-  BOOK,
-}
+type MEDIA_TYPE = "MOVIE" | "TVSHOW" | "BOOK";
 
 @Entity()
 export class Media {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("enum", {
-    enum: MEDIA_TYPE,
-  })
+  @Column()
   type: MEDIA_TYPE;
 
   @ManyToMany((type) => Tag)
