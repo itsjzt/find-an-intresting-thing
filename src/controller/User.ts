@@ -1,20 +1,24 @@
 import { User } from "../entity/User";
-import { Connection } from "typeorm";
+import {
+  updateControllerArg,
+  createControllerArg,
+  viewControllerArg,
+} from "../types";
 
-export interface createControllerArg {
-  db: Connection;
-  user: Omit<User, "media" | "id">;
-}
-
-export function create({ db, user }: createControllerArg) {
+export function create({ db, data }: createControllerArg<Omit<User, "media">>) {
   const newUser = new User();
-  newUser.bio = user.bio;
-  newUser.email = user.email;
-  newUser.firstName = user.firstName;
-  //   newUser.lastName = user.lastName;
-  newUser.password = user.password;
-
+  for (const property in data) {
+    newUser[property] = data[property];
+  }
   return db.manager.save(newUser);
 }
 
-export function update() {}
+export async function update({ db, data, where }: updateControllerArg<User>) {
+  await db.manager.update(User, where.id, data);
+
+  return db.manager.findOneOrFail(User, where.id);
+}
+
+export function view({ db, where }: viewControllerArg) {
+  return db.manager.findOneOrFail(User, where.id);
+}

@@ -21,6 +21,7 @@ test("create User", () => {
   };
 
   create({ db, user }).then((data) => {
+    console.log(data);
     expect(data).toStrictEqual(user);
   });
 });
